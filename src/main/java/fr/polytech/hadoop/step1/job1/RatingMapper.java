@@ -27,7 +27,7 @@ public class RatingMapper extends Mapper<LongWritable, Text, IntWritable, MovieI
         movieIdRating.setMovieID(Integer.parseInt(columns[1]));
         movieIdRating.setRating(Float.parseFloat(columns[2]));
 
-        // Emit the key-value pair
+        // Emit the userId and the movieIdRating containing the movie id and the rating
         context.write(userId, movieIdRating);
     }
 }

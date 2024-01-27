@@ -22,7 +22,7 @@ public class BestMoviePerUserId {
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println("\u001B[32mSTEP 2: Get (one of) the best Movie per User Id\u001B[0m");
+        System.out.println("\u001B[32mSTEP 1: Get (one of) the best Movie per User Id\u001B[0m");
 
         /// JOB 1 ///
 
@@ -65,7 +65,8 @@ public class BestMoviePerUserId {
 
             System.out.println("\u001B[33mJOB 2: Best Movie Per UserID\u001B[0m");
 
-            Job job2 = Job.getInstance(conf, "Best Movie Per UserID");
+            Configuration conf2 = new Configuration();
+            Job job2 = Job.getInstance(conf2, "Best Movie Per UserID");
 
             job2.setJarByClass(BestMoviePerUserId.class);
 

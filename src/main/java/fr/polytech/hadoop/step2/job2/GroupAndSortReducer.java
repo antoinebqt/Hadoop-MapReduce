@@ -28,7 +28,7 @@ public class GroupAndSortReducer extends Reducer<IntWritable, Text, IntWritable,
         // Set the movies
         movies.set(sb.toString());
 
-        // Emit the key-value pair
+        // Emit the number of occurrences and the list of movies associated
         context.write(key, movies);
     }
 }

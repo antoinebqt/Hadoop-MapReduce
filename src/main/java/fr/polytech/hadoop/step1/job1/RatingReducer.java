@@ -26,7 +26,7 @@ public class RatingReducer extends Reducer<IntWritable, MovieIdRatingWritable, I
         // Set the movieId
         movieId.set(max_movieid);
 
-        // Emit the key-value pair
+        // Emit the userId and its favorite movieId
         context.write(key, movieId);
     }
 }

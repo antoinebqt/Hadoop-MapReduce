@@ -29,7 +29,7 @@ public class MovieCountMapper extends Mapper<LongWritable, Text, IntWritable, Te
         movieName.set(matcher.group(1));
         count.set(Integer.parseInt(matcher.group(2)));
 
-        // Emit the key-value pair
+        // Emit the number of occurrences for the movie name
         context.write(count, movieName);
     }
 }

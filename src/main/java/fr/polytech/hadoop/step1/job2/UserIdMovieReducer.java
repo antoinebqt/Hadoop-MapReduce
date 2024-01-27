@@ -5,6 +5,8 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserIdMovieReducer extends Reducer<IntWritable, MovieUserIdWritable, IntWritable, Text> {
 
@@ -13,18 +15,20 @@ public class UserIdMovieReducer extends Reducer<IntWritable, MovieUserIdWritable
             throws IOException, InterruptedException {
 
         String movieName = "";
+        List<Integer> userIds = new ArrayList<>();
 
+        // Get the movie name and the list of user ids
         for (MovieUserIdWritable value : values) {
             if (!value.getMovie().toString().isEmpty()) {
                 movieName = value.getMovie().toString();
-                break;
+            } else {
+                userIds.add(value.getUserId().get());
             }
         }
 
-        for (MovieUserIdWritable value : values) {
-            if (!movieName.isEmpty() && value.getMovie().toString().isEmpty()) {
-                context.write(value.getUserId(), new Text(movieName));
-            }
+        // Write for each user id its favorite movie name
+        for (Integer userId : userIds) {
+            context.write(new IntWritable(userId), new Text(movieName));
         }
     }
 }

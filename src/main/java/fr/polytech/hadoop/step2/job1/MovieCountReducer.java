@@ -23,7 +23,7 @@ public class MovieCountReducer extends Reducer<Text, IntWritable, Text, IntWrita
         // Set the count
         count.set(sum);
 
-        // Emit the key-value pair
+        // Emit the movie name and the number of times it has been the favorite movie of a userId
         context.write(key, count);
     }
 }

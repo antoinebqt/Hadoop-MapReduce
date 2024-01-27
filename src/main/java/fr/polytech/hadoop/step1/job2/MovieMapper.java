@@ -33,7 +33,7 @@ public class MovieMapper extends Mapper<LongWritable, Text, IntWritable, MovieUs
         movieId.set(Integer.parseInt(movieIdStr));
         movieUserId.setMovie(movieNameStr);
 
-        // Emit the key-value pair
+        // Emit the movieId and the movieUserId containing the movie name
         context.write(movieId, movieUserId);
     }
 }

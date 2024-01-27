@@ -26,7 +26,7 @@ public class BestMovieMapper extends Mapper<LongWritable, Text, Text, IntWritabl
         // Set the movie name
         movieName.set(matcher.group(2));
 
-        // Emit the key-value pair
+        // Emit the movie name and 1 (for the count in the reducer)
         context.write(movieName, new IntWritable(1));
     }
 }
