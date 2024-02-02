@@ -15,23 +15,17 @@ public class MovieMapper extends Mapper<LongWritable, Text, IntWritable, MovieUs
 
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-        Pattern pattern = Pattern.compile("(\\d+),(\".+\"|[^\",]+),(.+)");
-        Matcher matcher = pattern.matcher(value.toString());
-
-        String movieIdStr = "";
-        String movieNameStr = "";
-        if (matcher.find()) {
-            movieIdStr = matcher.group(1);
-            movieNameStr = matcher.group(2);
-        }
-
-        if (movieIdStr.equals("movieId") || movieIdStr.isEmpty()) {
+        // Ignore the first line
+        if (value.toString().contains("movieId,title,genres")) {
             return;
         }
 
+        // Parse the line
+        String[] columns = value.toString().split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+
         // Set the movieId and the movieUserId
-        movieId.set(Integer.parseInt(movieIdStr));
-        movieUserId.setMovie(movieNameStr);
+        movieId.set(Integer.parseInt(columns[0]));
+        movieUserId.setMovie(columns[1]);
 
         // Emit the movieId and the movieUserId containing the movie name
         context.write(movieId, movieUserId);

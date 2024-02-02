@@ -5,36 +5,29 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class BestMovieIdMapper extends Mapper<LongWritable, Text, IntWritable, MovieUserIdWritable>{
 
-    IntWritable movieIdWritable = new IntWritable();
+    IntWritable movieId = new IntWritable();
     MovieUserIdWritable movieUserId = new MovieUserIdWritable();
 
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
         // Parse the line
-        Pattern pattern = Pattern.compile("(\\d+)\\s+(\\d+)$");
-        Matcher matcher = pattern.matcher(value.toString());
+        String[] columns = value.toString().split("\\s+");
 
-        int movieId = -1;
-        if (matcher.find()) {
-            movieId = Integer.parseInt(matcher.group(2));
-        }
+        if (columns.length >= 2) {
 
-        if (movieId == -1) {
+            // Set the movieId and the movieUserId
+            movieId.set(Integer.parseInt(columns[1]));
+            movieUserId.setUserId(Integer.parseInt(columns[0]));
+        } else {
             return;
         }
 
-        // Set the movieId and the movieUserId
-        movieIdWritable.set(movieId);
-        movieUserId.setUserId(Integer.parseInt(matcher.group(1)));
-
         // Emit the movieId and the movieUserId containing the user id
-        context.write(movieIdWritable, movieUserId);
+        context.write(movieId, movieUserId);
     }
 }
 
