@@ -17,7 +17,7 @@ public class GroupAndSortReducer extends Reducer<IntWritable, Text, IntWritable,
         // Concatenate the movies
         StringBuilder sb = new StringBuilder();
         for (Text value : values) {
-            if (sb.length() != 0) {
+            if (sb.length() == 0) {
                 sb.append(value.toString());
             } else {
                 sb.append(" ");
